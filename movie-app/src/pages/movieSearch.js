@@ -32,25 +32,30 @@ const MoviesSearch = () => {
         })
 	}
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault();
-        fetch("http://localhost:8080/api/v1/user/search?query="+query, {
+        const queryResponse = await fetch("http://localhost:8080/api/v1/user/search?query="+query, {
               method: "POST", 
               headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json'
               },
           })
-          .then((response) => Promise.all([response.json()]))
-          .then(([data])=> {
-  
-            //set temp var to set users data
-            const movies_temp = data;
-            setMovies(movies_temp);
-            console.log(data);
-      
-          })
-          .catch((message) => {alert(message)})
+		 const queryResult = await queryResponse.json();
+	
+		  const tmdbMovies = await Promise.all(
+			queryResult.map(async (movie) => {
+				const tmdbResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.tmdbid}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee&language=en-US`);
+				const tmdbResult = await tmdbResponse.json();
+				return {
+					...movie,
+					poster_path:  tmdbResult.poster_path,
+				};
+			})
+		);
+		setMovies(tmdbMovies);
+		console.log(tmdbMovies);
+
       }
 
 	return (
@@ -68,7 +73,7 @@ const MoviesSearch = () => {
 				{movies.map((movie, id) => (
 					<div className='col' key={id}>
 						<div className='card mb-5' style={{width: "18rem"}}>
-							<Link to={"/movie-detail/"+ movie.movieid}><img src={film} className='card-img-top' alt='movie-poster'/></Link>
+							<Link to={"/movie-detail/"+ movie.movieid}><img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee`} className='card-img-top' alt='movie-poster'/></Link>
 							
 							<h5 className='card-title'>{movie.title}</h5>
 							<p className="card-text"></p>
