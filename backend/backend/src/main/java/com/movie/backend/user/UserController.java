@@ -138,7 +138,6 @@ public class UserController {
 
         //search term
         String title = query;
-        //System.out.println(movieName);
         return movieRepository.findByTitleIgnoreCaseContaining(title);
     }
     
@@ -161,7 +160,7 @@ public class UserController {
             }
             rs.close();
 
-            // in case shit hits the fan!
+        //exception when sql error occurs
         } catch (SQLException se) {
             se.printStackTrace();
         } catch (Exception e) {

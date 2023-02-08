@@ -5,12 +5,15 @@ import NavAdmin from "../layouts/nav_admin";
 
 function MovieFavs ()
 {
+     //get jwt token stored in local storage
     const jwt = localStorage.getItem('jwt');
     console.log(jwt);
+    //set favourites movie objects
     const[f_movies, setFMOvies] = useState([]);
 
     useEffect(()=>{
 
+        //feth favorite movies for user favorite movie list
         const url = "http://localhost:8080/api/v1/user/getFavMovies";
 
         fetch(url, {

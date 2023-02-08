@@ -5,36 +5,44 @@ import { Link } from "react-router-dom"
 function Login ()
 {
 
+    //set username/password after valid login
     const[username, setUsername] = useState("");
     const[password, setPassword] = useState("");
     
     const onSubmit = (e) => {
         e.preventDefault();
     
+        //map login form data
         const reqBody = {
             username: username,
             password: password
         }
 
+        //endpoint to process login data at the backend
         fetch("http://localhost:8080/api/v1/auth/login", {
           method: "POST",
           Accept: "application/json",
           headers: {
             "Content-Type": "application/json",
           },
+          //converts mapped user data as JSON
           body: JSON.stringify(reqBody),
         })
         .then((response) => {
             if (response.status === 200)
             return response;
+            //alter user if they entered invalid credentials
             else throw new Error("Invalid credentials")
         })
         .then((response) => Promise.all([response.json()]))
         .then(([data]) => {
+            //set the token
             const jwt = data.token
+            //store the token in local item storage
             localStorage.setItem('jwt', jwt);
             //set user details
             const user_id = data.user.id
+            //store the user in local item storage
             localStorage.setItem('id', user_id);
 
             const username = data.user.username

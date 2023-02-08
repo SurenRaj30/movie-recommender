@@ -42,7 +42,7 @@ public class AdminController {
     //get movies list
     @GetMapping("/getMoviesList")
     public List<Movie> getMovies() {
-        return movieRepository.getAdminMovies();
+        return movieRepository.getMovies();
     }
 
     //add new movies

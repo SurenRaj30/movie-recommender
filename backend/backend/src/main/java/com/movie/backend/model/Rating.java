@@ -19,16 +19,20 @@ import lombok.NoArgsConstructor;
 @Table(name="suren_ratings")
 public class Rating {
 
+    //primary key for this table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    //refers to the user id
     @Column(name="userid")
     private long userid;
 
+    //refers to the movie id
     @Column(name="movieid")
     private long movieid;
 
+    //refers to the rating value
     @Column(name="rating")
     private long rating;
 

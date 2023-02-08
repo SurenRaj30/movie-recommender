@@ -14,7 +14,7 @@ const MovieDetail = () => {
     const[tmdb_movies, setTMDBMovies] = useState([]);
     //set selected movie detail
     const[sel_movie, setSelMovie] = useState([]);
-    //set desc
+    //set description for movies
     const[desc, setDesc] = useState("");
 
     //set user details
@@ -26,9 +26,11 @@ const MovieDetail = () => {
     useEffect(() => {
 
         const fetchData = async () => {
+            //gets the selected movie details
             const s_movies_url = await fetch(`http://localhost:8080/api/v1/user/getMovieDetail/${params.id}`);
             const s_movies_result = await s_movies_url.json();
 
+            //get the correspond movie information from tmdb (to get the poster)
             const tmdb_movie_details = await fetch(`https://api.themoviedb.org/3/movie/${s_movies_result.tmdbid}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee&language=en-US`)
             const tmdb_movies_result = await tmdb_movie_details.json();
 

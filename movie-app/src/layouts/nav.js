@@ -1,8 +1,10 @@
 import "../styles/nav.css"
-import {useState} from "react";
 
+
+//nav bar for user
 function NavUser() {
 
+    //gets the username from local storage
   const username = localStorage.getItem('username');
   return (
     <div className="sticky-top">

@@ -6,26 +6,16 @@ import java.util.List;
 
 import com.movie.backend.model.Movie;
 
+//connect to the suren_fav_movies table
 public interface MovieRepository extends JpaRepository<Movie, Long> {
     
-    //for user
+    //for both user and admin to fetch movies
     @Query(
         value="select * from suren_movies_2 order by movieid asc fetch first 600 rows only", 
         nativeQuery = true)
     List<Movie> getMovies();
-    
-    //for admin
-    @Query(
-        value="select * from suren_movies order by movieid desc fetch first 600 rows only", 
-        nativeQuery = true)
-    List<Movie> getAdminMovies();
 
-    // @Query(
-    //     value="Select * from movies where movies.title LIKE %:query%",
-    //     nativeQuery = true)
-    // List<Movie> getSearchResult(String query);
-    
-    //for user search
+    //for user search query
     List<Movie> findByTitleIgnoreCaseContaining(String title);
 
 

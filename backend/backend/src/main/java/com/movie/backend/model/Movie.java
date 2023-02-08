@@ -19,21 +19,25 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="suren_movies_2")
 public class Movie {
-    
+    //primary key for this table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="movieid")
     private int movieid;
 
+    //refers to the movie title 
     @Column(name="title")
     private String title;
 
+    //refers to the movie genres 
     @Column(name="genres")
     private String genres;
 
+    //refers to the movie tmdbid
     @Column(name="tmdbid")
     private long tmdbid;
 
+    //refers to the movie desc
     @Column(name="description")
     private String description;
 }

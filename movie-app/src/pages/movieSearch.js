@@ -10,7 +10,7 @@ const MoviesSearch = () => {
 	const[movies, setMovies] = useState([]);
 	//set movie id
 	const[movie_id, setMovieID] = useState([]);
-	//rating options
+	//rating options for rating drop down input
 	const ratings = [
         { value: 1, label: '1' },
         { value: 2, label: '2' },
@@ -32,8 +32,10 @@ const MoviesSearch = () => {
         })
 	}
 
+	//function to handle search (get invoked when user submit the form)
     const handleSearch = async (e) => {
         e.preventDefault();
+		//endpoint for search (retrieves all the movies based on the query)
         const queryResponse = await fetch("http://localhost:8080/api/v1/user/search?query="+query, {
               method: "POST", 
               headers: {
@@ -41,12 +43,16 @@ const MoviesSearch = () => {
                   'Content-Type': 'application/json'
               },
           })
+		  //convert response to json
 		 const queryResult = await queryResponse.json();
 	
+		 //get correponds movie information from tmdb (to get the poster path)
 		  const tmdbMovies = await Promise.all(
 			queryResult.map(async (movie) => {
+				//iterate through the movieResult
 				const tmdbResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.tmdbid}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee&language=en-US`);
 				const tmdbResult = await tmdbResponse.json();
+				//and adds the all the movies details as the json attributes togerther with the poster_path
 				return {
 					...movie,
 					poster_path:  tmdbResult.poster_path,
@@ -54,7 +60,6 @@ const MoviesSearch = () => {
 			})
 		);
 		setMovies(tmdbMovies);
-		console.log(tmdbMovies);
 
       }
 

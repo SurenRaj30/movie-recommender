@@ -3,12 +3,12 @@ import NavAdmin from "../layouts/nav_admin";
 
 function AdminMovie ()
 {
+    //get jwt token stored in local storage
     const jwt = localStorage.getItem('jwt');
-    console.log(jwt);
     const[movies, setMovies] = useState([]);
 
     useEffect(()=>{
-
+        //fetch movies list for admin movie table
         const url = "http://localhost:8080/api/v1/admin/getMoviesList";
 
         fetch(url, {

@@ -1,6 +1,9 @@
 import "../styles/nav.css"
 
+//nav bar for admin
 function NavAdmin() {
+
+//gets the username from local storage
   const username = localStorage.getItem('username');
     return (
     <div className="sticky-top">

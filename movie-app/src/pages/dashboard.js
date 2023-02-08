@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import NavAdmin from "../layouts/nav_admin";
 
 function Dashboard ()
-{
+{ 
+    //get jwt token stored in local storage
     const jwt = localStorage.getItem('jwt');
+    //set user objects once fetched
     const[users, setUsers] = useState([]);
     useEffect(()=>{
 
+        //fetch user details (user objects) for admin user list
         const url = "http://localhost:8080/api/v1/admin/dashboard";
 
         fetch(url, {

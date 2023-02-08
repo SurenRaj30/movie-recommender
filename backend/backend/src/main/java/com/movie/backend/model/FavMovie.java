@@ -21,19 +21,24 @@ import lombok.NoArgsConstructor;
 @Table(name="suren_fav_movies")
 public class FavMovie {
     
+    //primary key for this table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    //refers to the favorited movie id 
     @Column(name="favmovieid")
     private int favmovieid;
 
+    //refers to the favorited movie title 
     @Column(name="title")
     private String title;
 
+    //refers to the favorited movie genres 
     @Column(name="genres")
     private String genres;
 
+    //refers to the user id
     @Column(name="userid")
     private long userid;
 

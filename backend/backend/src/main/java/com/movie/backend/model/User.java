@@ -21,22 +21,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name="suren_user")
 public class User implements UserDetails {
 
+    //primary key for this table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    //refers to the username
     @Column(name="username")
     private String username;
     
+    //refers to the username
     @Column(name="email")
     private String email;
 
+    //refers to the password
     @Column(name="password")
     private String password;
 
+    //refers to the role
     @Column(name="role")
     private String role;
 
+    //all the override method comes from UserDetails implmentation
     @Override
     //will returns a list of role (single role)
     public Collection<? extends GrantedAuthority> getAuthorities() {
