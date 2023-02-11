@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import { Link } from "react-router-dom";
 import NavAdmin from "../layouts/nav_admin";
 
 function Dashboard ()
@@ -25,7 +24,6 @@ function Dashboard ()
 
             //set temp var to set users data
             const users_temp = data;
-            console.log(users_temp);
             setUsers(users_temp)
         })
     }, [])
@@ -34,8 +32,8 @@ function Dashboard ()
         <>
             <NavAdmin />
             <div className="container mt-5" style={{width: "50%"}} >
-                <table className="table">
-                    <thead>
+                <table className="table table-bordered shadow">
+                    <thead className="thead-dark">
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>

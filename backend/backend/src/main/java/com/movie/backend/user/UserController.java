@@ -82,6 +82,17 @@ public class UserController {
         favMovieRepository.save(fMovie);
     }
 
+    //remove favorites
+    @PostMapping("/removeFav/{movie_id}/{user_id}")
+    public void deleteFavoriteMovie(@PathVariable("movie_id") long movie_id, @PathVariable("user_id") long id) {
+        
+        //get movie details based on the movie_id (from the favorites table)
+        FavMovie fmovie = favMovieRepository.findById(movie_id).get();
+
+        //delete the movie from the repo
+        favMovieRepository.delete(fmovie);
+    }
+
     //get favs movie list
     @GetMapping("/getFavMovies")
     public List<FavMovie> getFavsMovies() {

@@ -6,8 +6,9 @@ import NavAdmin from "../layouts/nav_admin";
 //form for admin to add movie
 function AddMovie ()
 {
-    //gets the jwt token from the database
+    //set jwt token from local storage
     const jwt = localStorage.getItem('jwt');
+    //set for form data
     const[title, setTitle] = useState("");
     const[genre, setGenre] = useState("");
     const[desc, setDesc]  = useState("");

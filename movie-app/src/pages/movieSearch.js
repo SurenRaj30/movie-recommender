@@ -81,12 +81,11 @@ const MoviesSearch = () => {
 							<Link to={"/movie-detail/"+ movie.movieid}><img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee`} className='card-img-top' alt='movie-poster'/></Link>
 							
 							<h5 className='card-title'>{movie.title}</h5>
-							<p className="card-text"></p>
-								<div className="row">
-									<div className="col">
-										<td><button style={{width: "100%"}} className='btn btn-primary d-block' onClick={() => addToFavourites(movie.movieid)}>Add to Favourites</button></td>
-									</div>
-								</div>
+							<div className='card-body' style={{borderRadius: "20px"}}>
+								<h5 className='card-title' style={{fontSize: "15px"}}>{movie.title}</h5>
+								<p className="card-text"></p>       
+								<button className='btn btn-primary w-100'>Add to Favourites</button>
+							</div>
 						</div>
 					</div>
 				))}
