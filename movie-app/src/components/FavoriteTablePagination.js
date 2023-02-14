@@ -48,6 +48,7 @@ function FavoriteTablePagination({ data, pageLimit, dataLimit }) {
         fetch(url, {
           method: "POST",
           headers: {
+              'Authorization':'Bearer '+jwt,
               'Content-Type':'application/json'
           },
       })
