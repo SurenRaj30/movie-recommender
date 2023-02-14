@@ -3,10 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { Link } from "react-router-dom";
 import NavUser from "../layouts/nav";
-import film from '../assets/film.png';
 
 
 const MoviesSearch = () => {
+	//get items from localStorage
+	const jwt = localStorage.getItem('jwt');
 	const[movies, setMovies] = useState([]);
 	//set movie id
 	const[movie_id, setMovieID] = useState([]);
@@ -39,8 +40,8 @@ const MoviesSearch = () => {
         const queryResponse = await fetch("http://localhost:8080/api/v1/user/search?query="+query, {
               method: "POST", 
               headers: {
+				  'Authorization':'Bearer '+jwt,
                   'Accept': 'application/json',
-                  'Content-Type': 'application/json'
               },
           })
 		  //convert response to json

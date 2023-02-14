@@ -6,7 +6,8 @@ function MovieFavsList ()
 {
     //get jwt token stored in local storage
     const jwt = localStorage.getItem('jwt');
-    console.log(jwt);
+    //get user id from local storage
+    const id = Number(localStorage.getItem('id'));
     //set favourites movie objects
     const[f_movies, setFMovies] = useState([]);
 
@@ -14,12 +15,12 @@ function MovieFavsList ()
 
         const favRespose = async () => {
             //favorite movie list endpoint
-            const url = "http://localhost:8080/api/v1/user/getFavMovies";
+            const url = `http://localhost:8080/api/v1/user/getFavMovies/${id}`;
 
             const favRespose = await fetch(url, {
                                 method: "GET",
                                 headers: {
-                                    'Authorization':'Bearer ',
+                                    'Authorization':'Bearer '+jwt,
                                     'Content-Type':'application/json'
                                 },
                             })

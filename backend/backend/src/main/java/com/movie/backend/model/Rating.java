@@ -32,6 +32,9 @@ public class Rating {
     @Column(name="movieid")
     private long movieid;
 
+    @Column(name="title")
+    private String title;
+
     //refers to the rating value
     @Column(name="rating")
     private long rating;

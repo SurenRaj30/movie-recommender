@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.movie.backend.model.FavMovie;
 import com.movie.backend.model.Movie;
 import com.movie.backend.model.Rating;
-import com.movie.backend.model.User;
 import com.movie.backend.repository.FavMovieRepository;
 import com.movie.backend.repository.MovieRepository;
 import com.movie.backend.repository.RatingRepository;
-import com.movie.backend.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/v1/user/")
@@ -48,9 +46,9 @@ public class UserController {
     
      //*replace with application.properties values */
      static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-     static final String DB_URL = "jdbc:oracle:thin:@oracle-aziz.cilyihqptvjt.us-east-1.rds.amazonaws.com:1521:ORCL";
-     static final String USER = "adminaziz";
-     static final String PASS = "sMArt123_x";
+     static final String DB_URL = "jdbc:oracle:thin:@database-2.cmxecweo1rn2.ap-southeast-1.rds.amazonaws.com:1521:ORCL";
+     static final String USER = "admin";
+     static final String PASS = "Password123";
 
     //get movies list for user main page
     @GetMapping("/getMovieList")
@@ -72,6 +70,8 @@ public class UserController {
         //get movie details based on the movie_id
         Movie eMovie = movieRepository.findById(movie_id).get();
 
+        System.out.println(id);
+
         //set attributes of e_movie to fmovie
         fMovie.setFavmovieid(eMovie.getMovieid());
         fMovie.setTitle(eMovie.getTitle());
@@ -85,33 +85,35 @@ public class UserController {
     //remove favorites
     @PostMapping("/removeFav/{movie_id}/{user_id}")
     public void deleteFavoriteMovie(@PathVariable("movie_id") long movie_id, @PathVariable("user_id") long id) {
-        
-        //get movie details based on the movie_id (from the favorites table)
-        FavMovie fmovie = favMovieRepository.findById(movie_id).get();
 
-        //delete the movie from the repo
-        favMovieRepository.delete(fmovie);
+       favMovieRepository.deleteFavMovie(movie_id, id);
     }
 
     //get favs movie list
-    @GetMapping("/getFavMovies")
-    public List<FavMovie> getFavsMovies() {
-        return favMovieRepository.findAll();
+    @GetMapping("/getFavMovies/{user_id}")
+    public List<FavMovie> getFavsMovies(@PathVariable("user_id") long userid) {
+        
+        return favMovieRepository.favMovieList(userid);
     }
 
     //add rating
     @PostMapping("/addRating")
     public void addRating(@RequestBody Rating rate) {
-        
-       //System.out.println(rate);
         ratingRepository.save(rate);
-        
     }
 
     //get ratings list
-    @GetMapping("/getRatings")
-    public List<Rating> getRatings() {
-        return ratingRepository.findAll();
+    @GetMapping("/getRatings/{userid}")
+    public List<Rating> getRatings(@PathVariable("userid") long id) {
+        
+        return ratingRepository.getRatings(id);
+    }
+
+    //remove rating
+    @PostMapping("/removeRating/{movieid}/{userid}")
+    public void removeRating(@PathVariable("movieid") long movieid, @PathVariable("userid") long userid) {
+
+        ratingRepository.deleteRating(movieid, userid);
     }
 
     //fetch movies based on pearson correlation
@@ -127,7 +129,7 @@ public class UserController {
         int movieID = movie_id;
         
         //search movie ids in the pearson_table based on the movieID
-        similarIDs = RunQuery("Select movie_id from pearsons_correlations_medium where ID_"+ movieID +" > 0.5", "movie_id");
+        similarIDs = RunQuery("Select movie_id from PEARSONS_CORRELATION_MEDIUM where ID_"+ movieID +" > 0.5", "movie_id");
 
         for (int i = 0 ; i < similarIDs.size(); i++){
             long similiarID = Long.parseLong(similarIDs.get(i));

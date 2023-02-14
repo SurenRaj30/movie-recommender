@@ -11,7 +11,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     
     //for both user and admin to fetch movies
     @Query(
-        value="select * from suren_movies_2 order by movieid asc fetch first 600 rows only", 
+        value="select * from suren_movies order by movieid desc", 
         nativeQuery = true)
     List<Movie> getMovies();
 

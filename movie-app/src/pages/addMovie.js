@@ -37,7 +37,7 @@ function AddMovie ()
         fetch("http://localhost:8080/api/v1/admin/addMovie", {
             method: "POST", 
             headers: {
-                'Authorization':'Bearer ',
+                'Authorization':'Bearer '+jwt,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },

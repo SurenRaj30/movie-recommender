@@ -4,7 +4,7 @@ import "../styles/nav.css"
 //nav bar for user
 function NavUser() {
 
-    //gets the username from local storage
+ //gets the username from local storage
   const username = localStorage.getItem('username');
   return (
     <div className="sticky-top">
@@ -28,7 +28,11 @@ function NavUser() {
                     <li className="nav-item">
                         <a className="nav-link" href="/movie-favs">Favourite List</a>
                     </li>
-                      
+
+                    <li className="nav-item">
+                        <a className="nav-link" href="/movie-ratings">Rating List</a>
+                    </li>
+
                     </ul>
                 </div>
             </div>

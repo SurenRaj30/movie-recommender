@@ -6,6 +6,10 @@ import ClockLoader from "react-spinners/ClockLoader";
 
 const MovieDetail = () => {
     
+    //get items from localStorage
+	const jwt = localStorage.getItem('jwt');
+    //set user id
+    const id = localStorage.getItem("id");
     //for loading state
 	const[loading, setLoading] = useState(false);
     //set rating
@@ -18,9 +22,6 @@ const MovieDetail = () => {
     const[sel_movie, setSelMovie] = useState([]);
     //set description for movies
     const[desc, setDesc] = useState("");
-
-    //set user details
-    const id = localStorage.getItem("id");
     //gets movie id from url
     const params = useParams();
 
@@ -29,7 +30,13 @@ const MovieDetail = () => {
        
         const fetchData = async () => {
             //gets the selected movie details
-            const s_movies_url = await fetch(`http://localhost:8080/api/v1/user/getMovieDetail/${params.id}`);
+            const s_movies_url = await fetch(`http://localhost:8080/api/v1/user/getMovieDetail/${params.id}`, {
+                method: "GET", 
+				headers: {
+					'Authorization':'Bearer '+jwt,
+					'Content-Type':'application/json'
+				}
+            });
             const s_movies_result = await s_movies_url.json();
 
             //get the correspond movie information from tmdb (to get the poster)
@@ -51,7 +58,13 @@ const MovieDetail = () => {
     setLoading(true);
         const fetchData = async () => {
 
-			const movieResponse = await fetch(`http://localhost:8080/api/v1/user/getMovies/${params.id}`)
+			const movieResponse = await fetch(`http://localhost:8080/api/v1/user/getMovies/${params.id}`, {
+                method: "GET", 
+				headers: {
+					'Authorization':'Bearer '+jwt,
+					'Content-Type':'application/json'
+				}
+            })
 			const movieResult = await movieResponse.json();
 
 			const tmdbMovies = await Promise.all(
@@ -80,14 +93,15 @@ const MovieDetail = () => {
         const reqBody = {
             userid: id,
             rating: rating,
-            movieid: params.id
+            movieid: params.id,
+            title: sel_movie.title
 
         }
      
         fetch("http://localhost:8080/api/v1/user/addRating", {
             method: "POST", 
             headers: {
-                'Accept': 'application/json',
+                'Authorization':'Bearer '+jwt,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(reqBody),
@@ -95,7 +109,7 @@ const MovieDetail = () => {
         .then((response) => {
             if (response.status === 200) {
                 alert("Add Rating Was Successful")
-                window.location.href = "/movie-list";
+                window.location.href = "/movie-ratings";
             } else {
                 throw new Error("Error. Please Try Again");
             }
@@ -160,7 +174,7 @@ const MovieDetail = () => {
 					</>
 					) : (
 						<div className='d-flex justify-content-center'>
-							<h1>Loading...</h1>
+							<h1>No similiar movie</h1>
 						</div>
 					)}
     			</div>

@@ -10,6 +10,8 @@ import AdminMovie from "./pages/adminMovieList"
 import MovieDetail from "./pages/movieDetail"
 import MoviesSearch from "./pages/movieSearch"
 import MovieFavsList from "./pages/favoriteMovieList"
+import RatingList from "./pages/RatingList"
+import RatingTablePagination from "./components/RatingTablePagination"
 
 function App() {
 
@@ -21,6 +23,7 @@ function App() {
 		<Route path="/" element={<Login />} />
 		<Route path="/register" element={<Register />} />
 		<Route path="/movie-favs" element={<MovieFavsList />} />
+		<Route path="/movie-ratings" element={<RatingList />} />
 		<Route path="/movie-search" element={<MoviesSearch />} />
 		<Route path="/admin/addMovie" element={<AddMovie />} />
 		<Route path="/admin/movie-list" element={<AdminMovie />} />

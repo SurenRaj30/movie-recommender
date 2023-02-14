@@ -13,14 +13,9 @@ const MovieList = () => {
 	const[loading, setLoading] = useState(false);
 	//get items from localStorage
 	const jwt = localStorage.getItem('jwt');
-	//get user id from local storage
-	const id = localStorage.getItem('user_id');
-	//get username from local storage
-	const username = localStorage.getItem('username');
-
+	//get the movies list
 	const [movies, setMovies] = useState([]);
-	//set movie id
-	const[movie_id, setMovieID] = useState([]);
+	
 
 	useEffect(()=>{
 		//set loading spinner at the start of fetch
@@ -28,7 +23,13 @@ const MovieList = () => {
 		const fetchData = async () => {
 			
 			//gets the all the movie list
-			const movieResponse = await fetch("http://localhost:8080/api/v1/user/getMovieList")
+			const movieResponse = await fetch("http://localhost:8080/api/v1/user/getMovieList", {
+				method: "GET", 
+				headers: {
+					'Authorization':'Bearer '+jwt,
+					'Content-Type':'application/json'
+				}
+			})
 			const movieResult = await movieResponse.json();
 
 			//get correponds movie information from tmdb (to get the poster path)

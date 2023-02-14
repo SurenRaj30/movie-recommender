@@ -50,30 +50,35 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role));
     }
 
+    //shows whether user's account has expired
     @Override
     public boolean isAccountNonExpired() {
         // TODO Auto-generated method stub
         return true;
     }
 
+    //shows whether user is locked or not
     @Override
     public boolean isAccountNonLocked() {
         // TODO Auto-generated method stub
         return true;
     }
 
+    //shows whether user's credentials (password) has expired
     @Override
     public boolean isCredentialsNonExpired() {
         // TODO Auto-generated method stub
         return true;
     }
 
+    //shows whether user is enabled or disabled
     @Override
     public boolean isEnabled() {
         // TODO Auto-generated method stub
         return true;
     }
 
+    //returns password user to auth the user
     @Override
     public String getPassword() {
         // TODO Auto-generated method stub

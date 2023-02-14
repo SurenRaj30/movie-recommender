@@ -27,12 +27,14 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         
+        //adds the user var with details such as username
         var user = User.builder()
             .username(request.getUsername())
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
             .role(request.getRole())
             .build();
+        //saves the user in db
         repository.save(user); 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -41,16 +43,20 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse login(AuthenticationRequest request) {
-        ///System.out.println(request);
+        //check user details from request
+        //exception would be thrown if cred is incorrect
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
                 request.getPassword()
             )
         );
-        
+        //gets here after passing auth manager (if cred is valid)
+        //checks if user exist in db
         var user = repository.findByUsername(request.getUsername()).orElseThrow();
+        //generate token for user
         var jwtToken = jwtService.generateToken(user);
+        //returns the token to user
         return AuthenticationResponse.builder()
         .user(user)
         .token(jwtToken)

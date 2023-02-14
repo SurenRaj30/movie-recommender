@@ -20,21 +20,26 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     @Autowired
     private AuthenticationProvider authenticationProvider;
+    //guard all the other path except for login
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //disable CORS and CSRF
         http
             .cors().and().csrf().disable().authorizeHttpRequests()
+            //public endpoint (login page)
             .requestMatchers("/api/v1/auth/**").permitAll()
-            .requestMatchers("/api/v1/user/**").permitAll()
-            .requestMatchers("/api/v1/admin/**").permitAll()
+            //private endpoint
+            .requestMatchers("/api/v1/user/**").authenticated()
+            .requestMatchers("/api/v1/admin/**").authenticated()
             .and()
+            // Set session management to stateless
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authenticationProvider(authenticationProvider)
+            // Add JWT token filter
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         
-
         return http.build();
     }
 }

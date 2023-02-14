@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
-function FavoriteTablePagination({ data, pageLimit, dataLimit }) {
-    
-    //get jwt token stored in local storage
+function RatingTablePagination({ data, pageLimit, dataLimit }) {
+
+    //get jwt from localStorage
     const jwt = localStorage.getItem('jwt');
-    //get user id from local storage
-    const id = Number(localStorage.getItem('id'));
-
+    //get user id from localStorage
+    const id = localStorage.getItem("id");
+    
     const [pages] = useState(Math.round(data.length / dataLimit));
     const [currentPage, setCurrentPage] = useState(1);
   
@@ -40,22 +40,25 @@ function FavoriteTablePagination({ data, pageLimit, dataLimit }) {
         return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
     };
 
-    //for delete function
-   function removeFromFavorite(movieid) {
+   
 
-        const url = `http://localhost:8080/api/v1/user/removeFav/${movieid}/${id}`
+    //for removing rating
+   function removeRating(movieid) {
+
+        const url = `http://localhost:8080/api/v1/user/removeRating/${movieid}/${id}`
 
         fetch(url, {
           method: "POST",
           headers: {
+              'Authorization':'Bearer '+jwt,
               'Content-Type':'application/json'
           },
       })
       .then((response) => {
           if (response.status === 200) {
               //alerts user if removing movie from favorite was succesful
-              alert("Favorite movie is removed")
-              window.location.href = "/movie-favs";
+              alert("Rating removed")
+              window.location.href = "/movie-list";
           } else {
               //alerts if have any network error during post
               throw new Error("Error. Please Try Again");
@@ -76,7 +79,7 @@ function FavoriteTablePagination({ data, pageLimit, dataLimit }) {
                 <thead className='thead-dark'>
                 <tr>
                     <th scope="col">Title</th>
-                    <th scope="col">Genres</th>
+                    <th scope="col">Rating</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
@@ -84,8 +87,8 @@ function FavoriteTablePagination({ data, pageLimit, dataLimit }) {
                 {getPaginatedData().map((data, idx) => (
                     <tr key={idx}>
                         <td>{data.title}</td>
-                        <td>{data.genres}</td>
-                        <td><button className='btn btn-danger' onClick={() => removeFromFavorite(data.favmovieid)}>Remove</button></td>
+                        <td>{data.rating}</td>
+                        <td><button className='btn btn-danger' onClick={() => removeRating(data.movieid)}>Remove</button></td>
                     </tr>
                  ))}
                 </tbody>
@@ -121,4 +124,4 @@ function FavoriteTablePagination({ data, pageLimit, dataLimit }) {
     );
 }
 
-export default FavoriteTablePagination;
+export default RatingTablePagination;

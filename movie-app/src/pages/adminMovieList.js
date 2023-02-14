@@ -22,7 +22,7 @@ function AdminMovie ()
         fetch(url, {
             method: "GET",
             headers: {
-                'Authorization':'Bearer ',
+                'Authorization':'Bearer '+jwt,
                 'Content-Type':'application/json'
             },
         })

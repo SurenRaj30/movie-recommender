@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="suren_movies_2")
+@Table(name="suren_movies")
 public class Movie {
     //primary key for this table
     @Id

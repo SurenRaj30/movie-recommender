@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
+    //maps the data from register form
     private String username;
     private String email;
     private String password;
